@@ -20,5 +20,10 @@ fs.readFile('data.txt', 'utf8' , (err, data) => {
     });
 
     console.log(score);;
-
 });
+
+
+// Post mortem.
+// After doing my one line version I realized a better approach would be to just compare the first part of the string with the second part split into individual elements, ala
+// 'abCd'.split('') => filter('sdkfjksdl;fjksd;jf'.includes['a', 'b', 'C', 'd'] ..etc.);
+// reduces the need for 2 sets of elements.

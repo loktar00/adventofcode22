@@ -5,6 +5,7 @@ fs.readFile('data.txt', 'utf8' , (err, data) => {
     let score = 0;
     const lines = [...data.replace(/[\r]/g, '').split('\n')];
 
+    // Was rushing, could do this better without a for I'm sure.
     for (let elf = 0; elf < lines.length; elf += 3) {
         const elf1 = lines[elf].split('');
         const elf2 = lines[elf + 1].split('');
