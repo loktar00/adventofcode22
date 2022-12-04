@@ -1,6 +1,10 @@
 //https://adventofcode.com/2022/day/4/input
-[...document.querySelector('pre').textContent.split(/\n/)].filter(group => {
-    if (!group) return;
-    const section = group.split(',').map(i => i.split('-').map(i => Number(i)));
-    return ((section[1][0] <= section[0][0] && section[1][1] >= section[0][1]) || (section[0][0] <= section[1][0] && section[0][1] >= section[1][1]));
-}).length;
+[...document.querySelector('pre').textContent.split(/\n/)]
+    .filter(group => group && group.split(',')
+    .map(i => i.split('-')
+    .map(i => Number(i))
+    .some((el, _, arr) => {
+        console.log(arr[1][0], el[0])
+        return (arr[1][0] <= el[0] && arr[1][1] >= el[1]) || (el[0] <= arr[1][0] && el[1] >= arr[1][1])
+    })
+)).length;
