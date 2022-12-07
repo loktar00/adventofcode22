@@ -62,8 +62,8 @@ fs.readFile('data.txt', 'utf8' , (err, data) => {
         }
     }
 
-const totalSpaceUsed = calculateSizes(directories['/'], [])[0];
-const totalUnusedSpace = 70000000 - totalSpaceUsed;
-const freeSpaceNeeded = calculateSizes(directories['/'], []).filter((item) => item >= 30000000 - totalUnusedSpace).sort((a, b) => a - b)[0];
-  console.log(freeSpaceNeeded)
+    const totalSpaceUsed = calculateSizes(directories['/'], [])[0];
+    const totalUnusedSpace = 70000000 - totalSpaceUsed;
+    const freeSpaceNeeded = calculateSizes(directories['/'], []).filter((item) => item >= 30000000 - totalUnusedSpace).sort((a, b) => a - b)[0];
+    console.log(freeSpaceNeeded)
 });

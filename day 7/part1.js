@@ -11,13 +11,15 @@ getTheSumOfChildren = (directory) => {
 }
 
 calculateSizes = (directory, list) => {
-    list.push({size: getTheSumOfChildren(directory)});
+    list.push(getTheSumOfChildren(directory));
+
     if (directory.children) {
         for (let child in directory.children) {
             calculateSizes(directory.children[child], list)
         }
     }
-    return list.filter((item) => item.size <= 100000).reduce((acc, item) => acc + item.size, 0);
+
+    return list.filter((item) => item <= 100000).reduce((acc, item) => acc + item, 0);
 }
 
 fs.readFile('data.txt', 'utf8' , (err, data) => {
