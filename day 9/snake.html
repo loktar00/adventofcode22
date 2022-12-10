@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+	<body>
+        <canvas id="canvas" width="2000" height="2000"></canvas>
+        <script>
+                (function(){
+                    //Canvas stuff
+                    const canvas = document.getElementById("canvas");
+                    const ctx = canvas.getContext("2d");
+                    const w = canvas.width;
+                    const h = canvas.height;
+
+                    const board = new Set(['100-100']);
+
+                    let pixelSize = 10;
+                    let d;
+
+                    let snake = [];
+
+                    function init()
+                    {
+                        d = '';
+                        create_snake();
+                    }
+
+                    init();
+
+                    function create_snake()
+                    {
+                        const length = 10;
+                        for(let i = length - 1; i >= 0; i--) {
+                            snake.push({x: 100, y: 100});
+                        }
+                    }
+
+                    function paint(direction) {
+                        ctx.reset();
+                        ctx.strokeStyle = "black";
+                        ctx.strokeRect(0, 0, w, h);
+
+                        let nx = snake[0].x;
+                        let ny = snake[0].y;
+
+                        switch(direction) {
+                            case "r":
+                                nx++;
+                                break;
+                            case "l":
+                                nx--;
+                                break;
+                            case "u":
+                                ny--;
+                                break;
+                            case "d":
+                                ny++;
+                                break;
+                        }
+
+                        snake[0].x = nx;
+                        snake[0].y = ny;
+
+                        for (let i = 1; i < snake.length; i++) {
+                            const {x, y} = snake[i - 1];
+
+                            const xx = snake[i].x;
+                            const yy = snake[i].y;
+
+                            const xDist = x - xx;
+                            const yDist = y - yy;
+
+                            if (Math.abs(xDist) > 1) {
+                                snake[i].x += Math.sign(xDist);
+
+                                if (Math.abs(yDist) !== 0) {
+                                    snake[i].y += Math.sign(yDist);
+                                }
+                            } else if (Math.abs(yDist) > 1) {
+                                snake[i].y += Math.sign(yDist);
+
+                                if (Math.abs(xDist) !== 0) {
+                                    snake[i].x += Math.sign(xDist);
+                                }
+                            }
+                        }
+
+                        board.add(`${snake[snake.length - 1].x}-${snake[snake.length - 1].y}`);
+
+                        for(let i = 0; i < snake.length; i++) {
+                            const {x, y} = snake[i];
+                            paint_cell(x, y, i);
+                        }
+                    }
+
+                    function paint_cell(x, y, i) {
+                        const color = i + 1;
+                        ctx.fillStyle = `rgba(${color % 2 * 120}, ${color % 1 * 120}, 0, 1)`;
+                        ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+                        ctx.strokeStyle = "white";
+                        ctx.strokeRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+                    }
+
+                    // Pasted from part1.js result
+                    const data = 'r,r,r,r,r,u,u,u,u,u,u,u,u,l,l,l,l,l,l,l,l,d,d,d,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,d,d,d,d,d,d,d,d,d,d,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u';
+                    const movement = data.split(',');
+
+                    // For instant result
+                    // while(movement.length) {
+                    //     paint(movement[0]);
+                    //     movement.shift();
+                    // }
+
+                    // For watching
+                     function letsMove() {
+                        if(movement.length > 0) {
+                            paint(movement[0]);
+                            movement.shift();
+                            requestAnimationFrame(letsMove);
+                        } else {
+                           console.log(board.size)
+                        };
+                    }
+
+                    letsMove();
+
+                })();
+        </script>
+    </body>
+</html>
