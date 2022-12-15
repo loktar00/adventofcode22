@@ -3,8 +3,6 @@ const fs = require('fs')
 const map = [];
 const markedMap = [];
 
-// NOTES make startPOS an array, pass in all the A's and iterate through them testing each then take the lowest.
-
 const startPositions = [];
 const endPos = {x: 0, y: 0};
 
