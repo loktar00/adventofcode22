@@ -8,7 +8,7 @@ const endPos = {x: 0, y: 0};
 
 fs.readFile('data.txt', 'utf8' , (err, data) => {
     [...data.replace(/[\r]/g, '').split('\n')].forEach((data, idx) => {
-        markedMap[idx] = new Array(data.split('').length).fill('``');
+        markedMap[idx] = new Array(data.split('').length).fill('`');
         const tileData = data.split('').map((tile, y) => {
             let val = 0;
 

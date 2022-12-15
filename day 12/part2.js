@@ -5,7 +5,7 @@ const markedMap = [];
 
 // NOTES make startPOS an array, pass in all the A's and iterate through them testing each then take the lowest.
 
-const startPos = {x: 0, y: 0};
+const startPositions = [];
 const endPos = {x: 0, y: 0};
 
 fs.readFile('data.txt', 'utf8' , (err, data) => {
@@ -14,9 +14,13 @@ fs.readFile('data.txt', 'utf8' , (err, data) => {
         const tileData = data.split('').map((tile, y) => {
             let val = 0;
 
-            if (tile === 'S') {
-                startPos.x = idx;
-                startPos.y = y;
+            if (tile === 'S' || tile === 'a') {
+                const startpos = {
+                    x: idx,
+                    y: y
+                }
+                startPositions.push(startpos);
+
                 val = 0;
             } else if (tile === 'E') {
                 endPos.x = idx;
@@ -74,9 +78,8 @@ fs.readFile('data.txt', 'utf8' , (err, data) => {
                     markedMap[node.x][node.y] = node.type;
                 });
 
-                markedMap.forEach((row) => console.log(row.map(el => {if(el.length < 1){return `.${el}`} return el}).join(',')))
-                console.log(path.length - 1);
-                return true;
+              //  console.log(path.length - 1);
+                return path.length - 1;
             }else{
                 curNode.closed = true;
                 curNode.open = false;
@@ -148,5 +151,10 @@ fs.readFile('data.txt', 'utf8' , (err, data) => {
         return ((aa < bb) ? 1 : ((aa > bb) ? -1 : 0));
     }
 
-    pathFinding(map, startPos, endPos);
+    console.log(startPositions)
+    const pathLenghs = startPositions.map((startPos) => {
+        const clonedMap = structuredClone(map);
+        return pathFinding(clonedMap, startPos, endPos);
+    });
+    console.log(pathLenghs.sort((a, b) => a - b));
 });
